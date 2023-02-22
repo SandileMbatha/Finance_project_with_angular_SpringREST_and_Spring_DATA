@@ -1,0 +1,59 @@
+@import "bootswatch/dist/united/variables";
+@import "bootstrap/scss/bootstrap";
+@import "bootswatch/dist/united/bootswatch";
+
+.btn-block {
+  font-size: 0.8em;
+  background-color: #772953 !important;
+  border-color: #772953 !important;
+  color: #fff;
+  &:hover {
+    color: #b6c6cf;
+  }
+}
+
+input[type="radio"] {
+  margin-right: 7px;
+}
+
+.accordion {
+  border: 0px !important;
+}
+
+.description {
+  opacity: 60%;
+  font-size: 0.8rem;
+}
+
+.label-description {
+  align-content: flex-begin;
+}
+
+.label-amount {
+  max-width: 7rem;
+  min-width: 7rem;
+  @extend .text-right;
+}
+
+.nett-description {
+  align-content: flex-begin;
+}
+
+.nett-amount {
+  max-width: 10rem;
+  min-width: 10rem;
+  @extend .text-right;
+}
+
+::ng-deep .mat-horizontal-stepper-header {
+  pointer-events: none !important;
+}
+
+mat-icon {
+  color: green;
+  vertical-align: middle;
+}
+
+mat-form-field {
+  width: 90%;
+}

@@ -1,0 +1,47 @@
+<form [formGroup]="summary">
+  <div class="d-flex justify-content-center">
+    <h4>{{ summary.get("name") }} {{ summary.get("surname") }}</h4>
+  </div>
+  <div class="d-flex justify-content-center">
+    <label class="label-description" for="totalTaxableIncome"
+      ><b>Total Taxable Income (R):</b></label
+    >
+    <label class="label-amount text-right" id="totalTaxableIncome"
+      ><b>{{ summary.get("totalTaxableIncome") }}</b></label
+    >
+  </div>
+  <div class="d-flex justify-content-center">
+    <label class="label-description" for="totalDeductableExpenses"
+      ><b>Total Deductable Expenses (R):</b></label
+    >
+
+    <label class="label-amount text-right" id="totalDeductableExpenses"
+      ><b>{{ summary.get("totalDeductableExpenses") }}</b></label
+    >
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <label class="label-description" for="taxPayable"
+      ><b>Nett Taxable Income(Total) (R):</b></label
+    >
+    <label class="label-amount text-right" id="taxPayable"
+      ><b>{{ summary.get("nettTaxableIncome") }}</b></label
+    >
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <label class="label-description" for="taxPayable"
+      ><b>Tax Payable (R):</b></label
+    >
+    <label class="label-amount text-right" id="taxPayable">
+      <b>{{ summary.get("taxPayable") }}</b></label
+    >
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <h4 class="nett-description"><b>Nett Tax Payable (R):</b></h4>
+    <h4 class="nett-amount text-right" id="taxPayable">
+      <b>{{ summary.get("net") }}</b>
+    </h4>
+  </div>
+</form>

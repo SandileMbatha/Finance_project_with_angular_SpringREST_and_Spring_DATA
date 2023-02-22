@@ -1,0 +1,97 @@
+<div class="col-md-12 mx-auto">
+  <div class="container-fluid">
+    <app-table
+      [tableData]="financeTableData"
+      [pageData]="pageData"
+      (newPageRequested)="onNewPageRequested($event)"
+      (newPageSizeRequested)="onNewPageSizeRequested($event)"
+    >
+    </app-table>
+  </div>
+</div>
+<div class="d-flex justify-content-between mr-4 ml-4">
+  <div>
+    <button
+      (click)="deposit($event)"
+      type="button"
+      class="btn btn-outline-success mr-1"
+      data-toggle="modal"
+      data-target="#dModal"
+    >
+      Deposit
+    </button>
+    <button
+      *ngIf="withdrawButton"
+      (click)="withdraw($event)"
+      type="button"
+      class="btn btn-outline-danger"
+      data-toggle="modal"
+      data-target="#wModal"
+    >
+      Withdraw
+    </button>
+  </div>
+
+  <div>
+    <button
+      (click)="changeRate($event)"
+      type="button"
+      class="btn btn-outline-primary"
+      data-toggle="modal"
+      data-target="#crModal"
+    >
+      Change Rate
+    </button>
+  </div>
+
+  <div>
+    <button
+      (click)="changeAmount($event)"
+      type="button"
+      class="btn btn-outline-primary mr-1"
+      data-toggle="modal"
+      data-target="#caModal"
+    >
+      Change Amount
+    </button>
+    <button
+      (click)="increaseAmount($event)"
+      type="button"
+      class="btn btn-outline-success"
+      data-toggle="modal"
+      data-target="#iaModal"
+    >
+      Increase Amount
+    </button>
+  </div>
+</div>
+<br />
+<br />
+<div class="col-md-5 mx-auto">
+  <div class="accordion">
+    <div class="event-table">
+      <div class="accordion-card">
+        <button
+          class="btn btn-block text-left"
+          type="button"
+          data-toggle="collapse"
+          data-target="#events"
+          aria-expanded="true"
+          aria-controls="collapseTable"
+        >
+          Event History
+        </button>
+        <div class="collapse" id="events">
+          <app-table
+            [tableData]="eventTableData"
+            [service]="service"
+            (deleteItem)="onDeleteItem()"
+          >
+          </app-table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <br />
+</div>

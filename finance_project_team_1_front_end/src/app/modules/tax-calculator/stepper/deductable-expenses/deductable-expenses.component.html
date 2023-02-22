@@ -1,0 +1,31 @@
+<form [formGroup]="deductableExpenses">
+  <div>
+    <label>Retirement Fund (R):</label>
+    <input
+      (click)="onFocus($event)"
+      (paste)="onPaste($event)"
+      type="number"
+      id="retirementFund"
+      min="0.00"
+      step="0.01"
+      formControlName="retirementFund"
+      class="form-control"
+      placeholder="0.00"
+    />
+  </div>
+  <div>
+    <label>Travel Allowance (R):</label>
+    <input
+      (click)="onFocus($event)"
+      (paste)="onPaste($event)"
+      type="number"
+      id="travelAllowance"
+      min="0.00"
+      step="0.01"
+      formControlName="travelAllowance"
+      class="form-control"
+      placeholder="0.00"
+    />
+  </div>
+  <br />
+</form>

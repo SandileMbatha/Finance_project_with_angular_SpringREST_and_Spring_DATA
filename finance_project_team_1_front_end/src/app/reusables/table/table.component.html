@@ -1,0 +1,112 @@
+<table class="table table-hover table-striped table-bordered table-sm">
+  <thead class="thead-dark">
+    <tr>
+      <th
+        *ngFor="let header of tableData.headers; let i = index"
+        [width]="getColumnWidth(i + 1)"
+      >
+        {{ header }}
+      </th>
+      <th *ngIf="includeActions">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngIf="tableData.items == null || tableData.items.length === 0">
+      <td [attr.colspan]="getColSpan()" class="text-center">
+        {{ tableData.emptyTableMessage }}
+      </td>
+    </tr>
+    <tr
+      *ngFor="
+        let row of tableData.pageTable
+          ? (tableData.items
+            | paginate
+              : {
+                  id: paginateId,
+                  itemsPerPage: pageData.pageSize,
+                  currentPage: pageData.currentPage,
+                  totalItems: pageData.totalItems
+                })
+          : tableData.items;
+        let i = index
+      "
+      class="text-right"
+      [ngClass]="{'clickable-row' : clickableRows()}"
+      [routerLink]="
+        clickableRows() ? tableData.routerLinkPaths[i] : null
+      "
+    >
+      <td *ngFor="let cell of row">{{ cell }}</td>
+      <td *ngIf="includeActions">
+        <div class="d-flex justify-content-center">
+          <button
+            (click)="update($event, tableData.routerLinkPaths[i])"
+            *ngIf="tableData.editAction"
+            type="button"
+            class="btn"
+          >
+            <fa-icon [icon]="['far', 'pen-to-square']"></fa-icon>
+          </button>
+
+          <button
+            (click)="deleteClick($event, tableData.routerLinkPaths[i])"
+            *ngIf="tableData.deleteAction"
+            type="button"
+            class="btn"
+          >
+            <fa-icon [icon]="['far', 'trash-can']"></fa-icon>
+          </button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div *ngIf="this.tableData.pageTable" class="row mb-3">
+  <div class="col"></div>
+  <div class="col">
+    <pagination-template
+      #p="paginationApi"
+      [id]="paginateId"
+      (pageChange)="newPageRequested.emit($event)"
+    >
+      <div *ngIf="displayPageControls()" class="d-flex justify-content-center">
+        <ul class="pagination pagination-sm">
+          <li class="page-item" [ngClass]="{ disabled: p.isFirstPage() }">
+            <a class="page-link" (click)="p.previous()">
+              <fa-icon [icon]="['fas', 'angle-left']"></fa-icon>
+            </a>
+          </li>
+          <li
+            class="page-item"
+            *ngFor="let page of p.pages"
+            [ngClass]="{ active: p.getCurrent() === page.value }"
+          >
+            <a
+              class="page-link"
+              (click)="p.setCurrent(page.value)"
+              *ngIf="p.getCurrent() !== page.value"
+            >
+              <span>{{ page.label }}</span>
+            </a>
+            <a class="page-link" *ngIf="p.getCurrent() === page.value">
+              <span>{{ page.label }}</span>
+            </a>
+          </li>
+          <li class="page-item" [ngClass]="{ disabled: p.isLastPage() }">
+            <a class="page-link" (click)="p.next()">
+              <fa-icon [icon]="['fas', 'angle-right']"></fa-icon>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </pagination-template>
+  </div>
+  <div *ngIf="tableData.items.length !== 0" class="col text-right">
+    Items per page
+    <select class="custom-select" (change)="onTableSizeChange($event)">
+      <option *ngFor="let size of pageData.pageSizes" [ngValue]="size">
+        {{ size }}
+      </option>
+    </select>
+  </div>
+</div>

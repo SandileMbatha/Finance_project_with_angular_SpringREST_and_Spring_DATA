@@ -1,0 +1,72 @@
+<form [formGroup]="personalInformation">
+  <div>
+    <label>Name:</label>
+    <input
+      type="text"
+      id="name"
+      formControlName="name"
+      class="form-control"
+      placeholder="John"
+    />
+  </div>
+  <br />
+  <div>
+    <label>Surame:</label>
+    <input
+      type="text"
+      id="surname"
+      formControlName="surname"
+      class="form-control"
+      placeholder="Doe"
+    />
+  </div>
+  <br />
+  <div>
+    <label>Age:</label>
+    <div class="d-flex justify-content-around">
+      <div>
+        <input
+          type="radio"
+          id="under65"
+          name="age"
+          formControlName="age"
+          value="60"
+          checked="true"
+        />
+        <Label for="under65">Under 65</Label>
+      </div>
+      <div>
+        <input
+          type="radio"
+          id="between65-75"
+          name="age"
+          formControlName="age"
+          value="70"
+        />
+        <Label for="between65-75">Between 65 and 75</Label>
+      </div>
+      <div>
+        <input
+          type="radio"
+          id="over75"
+          name="age"
+          formControlName="age"
+          value="80"
+        />
+        <Label for="over75">Over 75</Label>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div>
+    <label>Tax Year:</label>
+    <input
+      type="text"
+      id="taxYear"
+      formControlName="taxYear"
+      class="form-control"
+      placeholder="2022/2023"
+    />
+  </div>
+  <br />
+</form>

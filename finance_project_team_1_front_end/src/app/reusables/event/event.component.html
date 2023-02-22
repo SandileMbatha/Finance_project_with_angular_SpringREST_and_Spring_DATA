@@ -1,0 +1,98 @@
+<div class="container">
+  <div class="container text-center text-md-left" data-aos="fade-up">
+    <div class="d-flex justify-content-center bd-highlight">
+      <form
+        [formGroup]="eventForm"
+        (ngSubmit)="onSubmit()"
+        novalidate
+        method="post"
+      >
+        <div>
+          <h2 class="d-flex justify-content-center">{{ title }}</h2>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="month"><b>Month :</b> </label>
+          <input
+            (paste)="onPaste($event)"
+            type="number"
+            id="month"
+            min="1"
+            step="1"
+            formControlName="month"
+            class="form-control"
+            placeholder="0"
+          />
+          <span
+            class="form-text"
+            *ngIf="
+              !eventForm.get('month')?.valid && eventForm.get('month')?.touched
+            "
+            class="form-text"
+            >Please enter a valid month</span
+          >
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="amount"
+            ><b>{{ monthLabel }}</b>
+          </label>
+          <input
+            (paste)="onPaste($event)"
+            type="number"
+            id="amount"
+            min="1"
+            step="0.01"
+            formControlName="amount"
+            class="form-control"
+            placeholder="0.00"
+          />
+          <span
+            class="form-text"
+            *ngIf="
+              !eventForm.get('amount')?.valid &&
+              eventForm.get('amount')?.touched
+            "
+            class="form-text"
+            >{{ errormessage }}</span
+          >
+        </div>
+
+        <div *ngIf="this.KeepRepaymentType" class="form-group mb-3">
+          <label for="keepRepayment"><b>Keep Repayment:</b></label>
+          &nbsp;
+          <input
+            type="checkbox"
+            name="check"
+            id="keepRepayment"
+            formControlName="keepRepayment"
+            value="1"
+            checked
+          /><br />
+        </div>
+
+        <span *ngIf="!eventForm.valid && !formValid" class="form-text"
+          >Please complete the form!</span
+        >
+        <br />
+
+        <div class="d-flex justify-content-end">
+          <button
+            type="button"
+            class="btn btn-outline-primary mr-1"
+            (click)="onCancel()"
+          >
+            Cancel
+          </button>
+          <button
+            [disabled]="!eventForm.valid"
+            type="submit"
+            class="btn btn-outline-primary mr-1"
+          >
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

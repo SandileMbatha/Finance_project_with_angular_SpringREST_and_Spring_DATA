@@ -1,0 +1,12 @@
+@import "bootswatch/dist/united/variables";
+@import "bootstrap/scss/bootstrap";
+@import "bootswatch/dist/united/bootswatch";
+
+$color_1: white;
+
+footer {
+  color: $color_1 !important;
+  width: 100%;
+  @extend .bg-dark;
+  @extend .text-center;
+}

@@ -1,0 +1,52 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" (click)="goToHomePage()"><b>Finance System</b></a>
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+      <li class="nav-item">
+        <a
+          class="nav-link active"
+          aria-current="page"
+          (click)="goToTaxCalculator()"
+          >Tax Calculator</a
+        >
+      </li>
+      <li class="nav-item dropdown">
+        <a
+          *ngIf="onCustomerDetailsPage()"
+          class="nav-link dropdown-toggle text-light"
+          id="navbarDropdown"
+          role="button"
+          data-toggle="dropdown"
+        >
+          New
+        </a>
+
+        <div class="dropdown-menu">
+          <a class="dropdown-item" routerLink="{{ getCreateInvestmentPath() }}"
+            >Investment</a
+          >
+          <a
+            class="dropdown-item"
+            routerLink="{{ getCreatePropertyBondPath() }}"
+            >Property Bond</a
+          >
+          <a class="dropdown-item" routerLink="{{ getCreateCarFinancePath() }}"
+            >Car Finance</a
+          >
+        </div>
+      </li>
+      <li class="nav-item" *ngIf="!onHomePage()">
+        <a class="nav-link active" aria-current="page" (click)="goBack()"
+          >Go Back</a
+        >
+      </li>
+    </ul>
+    <a
+      class="navbar-brand ml-auto"
+      *ngIf="getCurrentCustomer() && !onCustomerDetailsPage()"
+      routerLink="/customers/{{ getCurrentCustomer()?.customerNum }}"
+      >{{ getCurrentCustomer()?.name + " " + getCurrentCustomer()?.surname }}</a
+    >
+  </div>
+</nav>
+<br /><br /><br />

@@ -1,0 +1,172 @@
+<div class="container">
+  <div class="container text-center text-md-left" data-aos="fade-up">
+    <div class="d-flex justify-content-center bd-highlight">
+      <form
+        [formGroup]="propertyBondForm"
+        (ngSubmit)="onSubmit()"
+        novalidate
+        method="post"
+      >
+        <div>
+          <h2 class="d-flex justify-content-center">{{ title }}</h2>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="name"><b>Name:</b> </label>
+          <input
+            type="text"
+            (keypress)="alphaOnly($event)"
+            (keydown)="onTextChanged($event)"
+            id="name"
+            formControlName="name"
+            class="form-control"
+            placeholder="My Property Bond"
+          />
+          <app-error-message
+          [detailsForm]="propertyBondForm"
+          [attribute]="'name'"
+          ></app-error-message>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="price"><b>Price(R):</b></label>
+          <input
+            type="number"
+            id="price"
+            min="0.00"
+            step="0.01"
+            formControlName="price"
+            class="form-control"
+            placeholder="0.00"
+          />
+          <app-error-message
+          [detailsForm]="propertyBondForm"
+          [attribute]="'price'"
+          ></app-error-message>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="initialDeposit"><b>Initial Deposit (R):</b></label>
+          <input
+            type="number"
+            id="initialDeposit"
+            min="0.00"
+            step="0.01"
+            formControlName="initialDeposit"
+            class="form-control"
+            placeholder="0.00"
+          />
+          <app-error-message
+          [detailsForm]="propertyBondForm"
+          [attribute]="'initialDeposit'"
+          ></app-error-message>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="term"><b>Term (Months):</b></label>
+          <input
+            type="number"
+            id="term"
+            min="1"
+            step="1"
+            formControlName="term"
+            class="form-control"
+            placeholder="0"
+          />
+          <app-error-message
+          [detailsForm]="propertyBondForm"
+          [attribute]="'term'"
+          ></app-error-message>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="rate"><b>Interest Rate (%):</b></label>
+          <input
+            type="number"
+            id="rate"
+            min="0.001"
+            max="100.000"
+            step="0.001"
+            formControlName="rate"
+            class="form-control"
+            placeholder="0.000"
+          />
+          <app-error-message
+          [detailsForm]="propertyBondForm"
+          [attribute]="'rate'"
+          ></app-error-message>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="bondCosts"><b>Bond Costs (R):</b></label>
+          <input
+            type="number"
+            id="bondCosts"
+            min="0.00"
+            step="0.01"
+            formControlName="bondCosts"
+            class="form-control"
+            placeholder="0.00"
+          />
+          <app-error-message
+          [detailsForm]="propertyBondForm"
+          [attribute]="'bondCosts'"
+          ></app-error-message>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="legalCosts"><b>Legal Costs (R):</b></label>
+          <input
+            type="number"
+            id="legalCosts"
+            min="0.00"
+            step="0.01"
+            formControlName="legalCosts"
+            class="form-control"
+            placeholder="0.00"
+          />
+          <app-error-message
+          [detailsForm]="propertyBondForm"
+          [attribute]="'legalCosts'"
+          ></app-error-message>
+        </div>
+
+        <span *ngIf="!propertyBondForm.valid && !formValid" class="form-text"
+          >Please complete the form.</span
+        >
+
+        <br />
+
+        <div class="d-flex justify-content-between">
+          <div class="d-flex justify-content-begin">
+            <button
+              *ngIf="!this.updatePropertyBond"
+              type="button"
+              class="btn btn-outline-secondary mr-1"
+              (click)="onClear()"
+            >
+              Clear
+            </button>
+          </div>
+
+          <div class="d-flex justify-content-end">
+            <button
+              type="button"
+              class="btn btn-outline-primary mr-1"
+              (click)="onCancel()"
+            >
+              Cancel
+            </button>
+            <button
+              [disabled]="!propertyBondForm.valid"
+              type="submit"
+              class="btn btn-outline-primary mr-1"
+            >
+              {{ submitButtonText }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

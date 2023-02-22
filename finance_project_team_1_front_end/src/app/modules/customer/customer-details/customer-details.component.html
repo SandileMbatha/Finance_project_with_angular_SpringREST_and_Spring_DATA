@@ -1,0 +1,143 @@
+<div class="container" *ngIf="customer">
+  <span class="scroll-button" (click)="scrollDown()">
+    <fa-icon [icon]="['fas', 'chevron-down']"></fa-icon>
+  </span>
+  <div class="customer-details-card">
+    <h2>
+      <b>{{ customer.name + " " + customer.surname }}</b>
+    </h2>
+    <br />
+    <div>
+      <table class="table">
+        <tbody>
+          <tr>
+            <td class="text-left"><b>Customer Number:</b></td>
+            <td class="text-right">
+              <span>{{ customer.customerNum }}</span>
+            </td>
+            <td class="text-left"><b>Total Investments:</b></td>
+            <td class="text-right">
+              <span>{{ investmentTableData.items.length }}</span>
+            </td>
+            <td></td>
+            <td><span></span></td>
+          </tr>
+          <tr>
+            <td class="text-left"><b>ID Number:</b></td>
+            <td class="text-right">
+              <span>{{ customer.idNumber }}</span>
+            </td>
+            <td class="text-left"><b>Total Property Bonds:</b></td>
+            <td class="text-right">
+              <span>{{ propertyBondTableData.items.length }}</span>
+            </td>
+            <td></td>
+            <td><span></span></td>
+          </tr>
+          <tr>
+            <td class="text-left"><b>Date of Birth:</b></td>
+            <td class="text-right">
+              <span>{{ customer.dateOfBirth }}</span>
+            </td>
+            <td class="text-left"><b>Total Car Finances:</b></td>
+            <td class="text-right">
+              <span>{{ carFinanceTableData.items.length }}</span>
+            </td>
+            <td></td>
+            <td><span></span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="card-footer d-flex justify-content-center">
+        <button
+          (click)="update($event)"
+          type="button"
+          class="btn btn-outline-primary"
+        >
+          Edit
+        </button>
+      </div>
+      <br />
+    </div>
+  </div>
+
+  <br />
+  <div class="accordion">
+    <div class="table-responsive">
+      <div class="accordion-card">
+        <button
+          class="btn btn-block text-left"
+          type="button"
+          data-toggle="collapse"
+          data-target="#investment"
+          aria-expanded="true"
+          aria-controls="collapseTable"
+        >
+          Investments
+        </button>
+        <div class="collapse show" id="investment">
+          <app-table
+            [paginateId]="invPaginateId"
+            [tableData]="investmentTableData"
+            [service]="getInvestmentService()"
+            [pageData]="investmentPageData"
+            (newPageRequested)="onInvestmentsNewPageRequested($event)"
+            (newPageSizeRequested)="onInvestmentsNewPageSizeRequested($event)"
+            (deleteItem)="onDeleteInvestment()"
+          ></app-table>
+        </div>
+      </div>
+      <br />
+      <div class="accordion-card">
+        <button
+          class="btn btn-block text-left"
+          type="button"
+          data-toggle="collapse"
+          data-target="#property-bond"
+          aria-expanded="true"
+          aria-controls="collapseTable"
+        >
+          Property Bonds
+        </button>
+        <div class="collapse show" id="property-bond">
+          <app-table
+            [paginateId]="pbPaginateId"
+            [tableData]="propertyBondTableData"
+            [service]="getPropertBondService()"
+            [pageData]="propertyBondPageData"
+            (newPageRequested)="onPropertyBondsNewPageRequested($event)"
+            (newPageSizeRequested)="onPropertyBondsNewPageSizeRequested($event)"
+            (deleteItem)="onDeletePropertBond()"
+          ></app-table>
+        </div>
+      </div>
+      <br />
+      <div class="accordion-card">
+        <button
+          class="btn btn-block text-left"
+          type="button"
+          data-toggle="collapse"
+          data-target="#car-finance"
+          aria-expanded="true"
+          aria-controls="collapseTable"
+        >
+          Car Finances
+        </button>
+        <div class="collapse show" id="car-finance">
+          <app-table
+            [paginateId]="cfPaginateId"
+            [tableData]="carFinanceTableData"
+            [service]="getCarFinanceService()"
+            [pageData]="carFinancePageData"
+            (newPageRequested)="onCarFinancesNewPageRequested($event)"
+            (newPageSizeRequested)="onCarFinancesNewPageSizeRequested($event)"
+            (deleteItem)="onDeleteCarFinance()"
+          ></app-table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="scroll-button" (click)="scrollUp()">
+    <fa-icon [icon]="['fas', 'chevron-up']"></fa-icon>
+  </span>
+</div>

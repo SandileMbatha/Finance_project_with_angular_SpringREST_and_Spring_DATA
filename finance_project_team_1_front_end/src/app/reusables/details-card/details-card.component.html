@@ -1,0 +1,28 @@
+<div *ngIf="cardData" class="details-card">
+  <h3>{{ cardData.header }}</h3>
+  <table class="table">
+    <tbody>
+      <tr *ngFor="let row of cardData.rows">
+        <td class="text-left">
+          <b>{{ row.label }}</b>
+        </td>
+        <td class="text-right">
+          <label>{{ row.value }}</label>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div
+    *ngIf="cardData.editButton"
+    class="card-footer mb-3 d-flex justify-content-center"
+  >
+    <button
+      type="button"
+      class="btn btn-outline-primary"
+      (click)="update()"
+    >
+      Edit
+    </button>
+  </div>
+</div>

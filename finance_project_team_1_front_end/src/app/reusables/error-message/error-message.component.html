@@ -1,0 +1,41 @@
+<div *ngIf="!detailsForm.controls[attribute]?.valid &&
+            detailsForm.controls[attribute]?.touched"
+            class="form-text"
+            >
+
+    <div *ngIf="detailsForm.controls[attribute].errors?.['required']">
+        {{requiredAttribute() + " "}} is required.
+    </div>
+    <ng-container *ngIf="!detailsForm.controls[attribute].errors?.['required']">
+        <div *ngIf="detailsForm.controls[attribute].errors?.['invalidIdNumber']">
+          {{detailsForm.controls[attribute].errors?.['message']}}
+        </div>
+        <div *ngIf="detailsForm.controls[attribute].errors?.['negativeAmount']">
+          {{detailsForm.controls[attribute].errors?.['message']}}
+        </div>
+        <div *ngIf="detailsForm.controls[attribute].errors?.['exceedTwoDecimalPlaces']">
+          {{detailsForm.controls[attribute].errors?.['message']}}
+        </div>
+        <div *ngIf="detailsForm.controls[attribute].errors?.['betweenZeroAndHundred']">
+          {{detailsForm.controls[attribute].errors?.['message']}}
+        </div>
+        <div *ngIf="detailsForm.controls[attribute].errors?.['threeDecimalPlaces']">
+          {{detailsForm.controls[attribute].errors?.['message']}}
+        </div>
+        <div *ngIf="detailsForm.controls[attribute].errors?.['equalToZero']">
+          {{detailsForm.controls[attribute].errors?.['message']}}
+        </div>
+        <div *ngIf="detailsForm.controls[attribute].errors?.['wholeNumber']">
+          {{detailsForm.controls[attribute].errors?.['message']}}
+        </div>
+        <div *ngIf="detailsForm.controls[attribute].errors?.['idExist']">
+          {{detailsForm.controls[attribute].errors?.['message']}}
+        </div>
+        <div *ngIf="detailsForm.controls[attribute].errors?.['nameExist']">
+          {{detailsForm.controls[attribute].errors?.['message']}}
+        </div>
+        <div *ngIf="detailsForm.controls[attribute].errors?.['invalidId']">
+          Please enter a valid Id number
+        </div>
+    </ng-container>
+</div>

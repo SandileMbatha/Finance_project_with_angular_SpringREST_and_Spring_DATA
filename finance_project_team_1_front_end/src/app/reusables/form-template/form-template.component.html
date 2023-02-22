@@ -1,0 +1,80 @@
+<div class="container">
+  <div class="container text-center text-md-left" data-aos="fade-up">
+    <div class="d-flex justify-content-center bd-highlight">
+      <form
+        [formGroup]="formGroup"
+        (ngSubmit)="onSubmit()"
+        novalidate
+        method="post"
+      >
+        <div>
+          <h2 class="d-flex justify-content-center">{{ title }}</h2>
+        </div>
+
+        <div *ngFor="let property of formControlProperties">
+          <div class="form-group mb-3">
+            <label [for]="property.key"
+              ><b>{{ property.label }}:</b>
+            </label>
+            <input
+              [type]="property.inputType"
+              [id]="property.key"
+              [formControlName]="property.key"
+              class="form-control"
+              [placeholder]="property.placeholder"
+              [readonly]="property.readonly"
+            />
+            <span
+              *ngIf="
+                !formGroup.get(property.key)?.valid &&
+                formGroup.get(property.key)?.touched
+              "
+            >
+              Please enter a valid {{ property.label }}.
+              <!-- <app-validator-template
+                [formGroup]="formGroup"
+                [formControlProperty]="property"
+                [validatorProperties]="validatorProperties"
+              ></app-validator-template> -->
+            </span>
+          </div>
+        </div>
+
+        <span *ngIf="allControlsTouchedAndValid()" class="form-text"
+          >Please complete the form.</span
+        >
+
+        <br />
+
+        <div class="d-flex justify-content-between">
+          <div class="d-flex justify-content-begin">
+            <button
+              type="button"
+              class="btn btn-outline-secondary mr-1"
+              (click)="onClear()"
+            >
+              Clear
+            </button>
+          </div>
+
+          <div class="d-flex justify-content-end">
+            <button
+              type="button"
+              class="btn btn-outline-primary mr-1"
+              (click)="onCancel()"
+            >
+              Cancel
+            </button>
+            <button
+              [disabled]="!formGroup.valid"
+              type="submit"
+              class="btn btn-outline-primary mr-1"
+            >
+              {{ buttonText }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

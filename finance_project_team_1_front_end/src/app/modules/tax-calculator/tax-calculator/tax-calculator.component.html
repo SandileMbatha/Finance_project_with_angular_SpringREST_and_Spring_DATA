@@ -1,0 +1,1324 @@
+<div class="container-fluid d-flex justify-content-center bd-highlight">
+  <form [formGroup]="taxForm" (ngSubmit)="onSubmit()" novalidate method="post">
+    <div>
+      <h2 class="d-flex justify-content-center">
+        <strong>Tax Calculator</strong>
+      </h2>
+    </div>
+
+    <br />
+
+    <mat-stepper>
+      <ng-template matStepperIcon="edit">
+        <mat-icon>
+          <!-- <fa-icon [icon]="['far', 'check-circle']"></fa-icon> -->
+        </mat-icon>
+      </ng-template>
+
+      <mat-step label="Personal Information" labelPosition="bottom" #stepper>
+        <br />
+
+        <div class="container justify-content-center">
+          <div class="col">
+            <div class="row justify-content-center">
+              <div class="col-sm-3 description text-center">
+                <label>* indicates required</label>
+              </div>
+            </div>
+
+            <br />
+
+            <div class="row justify-content-center">
+              <div class="col-sm-3">
+                <label><span class="description">*</span>Name:</label>
+              </div>
+
+              <div class="col-sm-5">
+                <input
+                  (click)="onFocus($event)"
+                  type="text"
+                  id="name"
+                  formControlName="name"
+                  class="form-control"
+                  placeholder="John"
+                />
+
+                <span
+                  *ngIf="
+                    !taxForm.get('name')?.valid && taxForm.get('name')?.touched
+                  "
+                  class="form-text"
+                  >Please enter a valid name.</span
+                >
+              </div>
+            </div>
+
+            <br />
+
+            <div class="row justify-content-center">
+              <div class="col-sm-3">
+                <label><span class="description">*</span>Surname:</label>
+              </div>
+
+              <div class="col-sm-5">
+                <input
+                  (click)="onFocus($event)"
+                  type="text"
+                  id="surname"
+                  formControlName="surname"
+                  class="form-control"
+                  placeholder="Doe"
+                />
+
+                <span
+                  *ngIf="
+                    !taxForm.get('surname')?.valid &&
+                    taxForm.get('surname')?.touched
+                  "
+                  class="form-text"
+                  >Please enter a valid surname.</span
+                >
+              </div>
+            </div>
+
+            <br />
+
+            <div class="row justify-content-center">
+              <div class="col-sm-3">
+                <label><span class="description">*</span>Age:</label>
+                <!-- <label class="description">Your age during the tax year*</label> -->
+              </div>
+
+              <div class="col-sm-5">
+                <div class="d-flex justify-content-around">
+                  <div>
+                    <input
+                      type="radio"
+                      id="under65"
+                      name="age"
+                      formControlName="age"
+                      value="60"
+                      checked="true"
+                    />
+                    <Label for="under65">Under 65</Label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id="between65-75"
+                      name="age"
+                      formControlName="age"
+                      value="70"
+                    />
+                    <Label for="between65-75">Between 65 and 75</Label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id="over75"
+                      name="age"
+                      formControlName="age"
+                      value="80"
+                    />
+                    <Label for="over75">Over 75</Label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <br />
+
+            <div class="row justify-content-center">
+              <div class="col-sm-3">
+                <label><span class="description">*</span>Tax Year:</label>
+                <!-- <label class="description">The tax year in question*</label> -->
+              </div>
+
+              <div class="col-sm-5">
+                <mat-form-field appearance="outline">
+                  <mat-label>Tax Year in Question</mat-label>
+                  <mat-select formControlName="taxYear" disableRipple="">
+                    <mat-option class="label-description"
+                      >--Tax Year in Question--</mat-option
+                    >
+                    <mat-option
+                      *ngFor="let taxYear of availableTaxYears"
+                      [value]="taxYear"
+                    >
+                      {{ taxYear }} (Mar {{ taxYear }} - Feb {{ taxYear + 1 }})
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <span
+                  *ngIf="
+                    !taxForm.get('taxYear')?.valid &&
+                    taxForm.get('taxYear')?.touched
+                  "
+                  class="form-text"
+                  >Please select a valid option.</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br />
+
+        <div class="row justify-content-center">
+          <button
+            class="btn btn-outline-primary mr-1"
+            mat-button
+            matStepperNext
+            [disabled]="
+              !(
+                taxForm.get('name')?.valid &&
+                taxForm.get('surname')?.valid &&
+                taxForm.get('age')?.valid &&
+                taxForm.get('taxYear')?.valid &&
+                taxForm.get('taxYear')?.touched
+              )
+            "
+          >
+            Next
+          </button>
+        </div>
+      </mat-step>
+
+      <mat-step label="Income" labelPosition="bottom" #stepper>
+        <br />
+
+        <div class="container justify-content-center">
+          <div class="col">
+            <div class="row justify-content-center">
+              <div class="col-sm-3 description text-center">
+                <label>* indicates required</label>
+              </div>
+            </div>
+
+            <br />
+
+            <div class="row justify-content-center">
+              <div class="col-sm-3">
+                <label><span class="description">*</span>Salary (R):</label>
+                <label class="description"
+                  >Total earned during the tax year*</label
+                >
+              </div>
+
+              <div class="col-sm-5">
+                <input
+                  (click)="onFocus($event)"
+                  type="number"
+                  id="salary"
+                  min="0.00"
+                  step="0.01"
+                  formControlName="salary"
+                  class="form-control"
+                  placeholder="0.00"
+                />
+
+                <span
+                  *ngIf="
+                    !taxForm.get('salary')?.valid &&
+                    taxForm.get('salary')?.touched
+                  "
+                  class="form-text"
+                  >Salary needs to be a valid money amount.</span
+                >
+              </div>
+            </div>
+
+            <br />
+
+            <div class="row justify-content-center">
+              <div class="col-sm-3">
+                <label>Bonuses (R):</label>
+                <label class="description"
+                  >Total earned during the tax year*</label
+                >
+              </div>
+
+              <div class="col-sm-5">
+                <input
+                  (click)="onFocus($event)"
+                  type="number"
+                  id="bonuses"
+                  min="0.00"
+                  step="0.01"
+                  formControlName="bonuses"
+                  class="form-control"
+                  placeholder="0.00"
+                />
+
+                <span
+                  *ngIf="
+                    !taxForm.get('bonuses')?.valid &&
+                    taxForm.get('bonuses')?.touched
+                  "
+                  class="form-text"
+                  >Bonuses needs to be a valid money amount.</span
+                >
+              </div>
+            </div>
+
+            <br />
+
+            <div class="row justify-content-center">
+              <div class="col-sm-3">
+                <label>Interest Received (R):</label>
+                <label class="description"
+                  >Total earned during the tax year*</label
+                >
+              </div>
+
+              <div class="col-sm-5">
+                <input
+                  (click)="onFocus($event)"
+                  type="number"
+                  id="interestReceived"
+                  min="0.00"
+                  step="0.01"
+                  formControlName="interestReceived"
+                  class="form-control"
+                  placeholder="0.00"
+                />
+
+                <span
+                  *ngIf="
+                    !taxForm.get('interestReceived')?.valid &&
+                    taxForm.get('interestReceived')?.touched
+                  "
+                  class="form-text"
+                  >Interest Received needs to be a valid money amount.</span
+                >
+              </div>
+            </div>
+
+            <br />
+
+            <div class="row justify-content-center">
+              <div class="col-sm-3">
+                <label>Dividends (R):</label>
+                <label class="description"
+                  >Total earned during the tax year*</label
+                >
+              </div>
+
+              <div class="col-sm-5">
+                <input
+                  (click)="onFocus($event)"
+                  type="number"
+                  id="dividends"
+                  min="0.00"
+                  step="0.01"
+                  formControlName="dividends"
+                  class="form-control"
+                  placeholder="0.00"
+                />
+
+                <span
+                  *ngIf="
+                    !taxForm.get('dividends')?.valid &&
+                    taxForm.get('dividends')?.touched
+                  "
+                  class="form-text"
+                  >Dividends needs to be a valid money amount.</span
+                >
+              </div>
+            </div>
+
+            <br />
+
+            <div class="row justify-content-center">
+              <div class="col-sm-3">
+                <label>Total Capital Gains (R):</label>
+                <label class="description"
+                  >Total earned during the tax year*</label
+                >
+              </div>
+
+              <div class="col-sm-5">
+                <input
+                  (click)="onFocus($event)"
+                  type="number"
+                  id="totalCapitalGains"
+                  min="0.00"
+                  step="0.01"
+                  formControlName="totalCapitalGains"
+                  class="form-control"
+                  placeholder="0.00"
+                />
+
+                <span
+                  *ngIf="
+                    !taxForm.get('totalCapitalGains')?.valid &&
+                    taxForm.get('totalCapitalGains')?.touched
+                  "
+                  class="form-text"
+                  >Total Capital Gains needs to be a valid money amount.</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br />
+
+        <div class="row justify-content-center">
+          <button
+            class="btn btn-outline-primary mr-1"
+            mat-button
+            matStepperPrevious
+          >
+            Back
+          </button>
+          <button
+            class="btn btn-outline-primary mr-1"
+            mat-button
+            matStepperNext
+            [disabled]="!taxForm.get('salary')?.valid"
+          >
+            Next
+          </button>
+        </div>
+      </mat-step>
+
+      <mat-step label="Deductable Expenses" labelPosition="bottom" #stepper>
+        <div class="container justify-content-center">
+          <div class="col">
+            <!-- <div class="row justify-content-center">
+              <div class="col-sm-3 description text-center">
+                <label>* indicates required</label>
+              </div>
+            </div> -->
+
+            <br />
+
+            <div class="row justify-content-center">
+              <div class="col-sm-3">
+                <label>Retirement Fund (R):</label>
+                <label class="description"
+                  >Total contributed during the tax year*</label
+                >
+              </div>
+
+              <div class="col-sm-5">
+                <input
+                  (click)="onFocus($event)"
+                  type="number"
+                  id="retirementFund"
+                  min="0.00"
+                  step="0.01"
+                  formControlName="retirementFund"
+                  class="form-control"
+                  placeholder="0.00"
+                />
+
+                <span
+                  *ngIf="
+                    !taxForm.get('retirementFund')?.valid &&
+                    taxForm.get('retirementFund')?.touched
+                  "
+                  class="form-text"
+                  >Retirement Fund needs to be a valid money amount.</span
+                >
+              </div>
+            </div>
+
+            <br />
+
+            <div class="row justify-content-center">
+              <div class="col-sm-3">
+                <label>Travel Allowance (R):</label>
+                <label class="description"
+                  >Total amount allocated during the tax year*</label
+                >
+              </div>
+
+              <div class="col-sm-5">
+                <input
+                  (click)="onFocus($event)"
+                  type="number"
+                  id="travelAllowance"
+                  min="0.00"
+                  step="0.01"
+                  formControlName="travelAllowance"
+                  class="form-control"
+                  placeholder="0.00"
+                />
+
+                <span
+                  *ngIf="
+                    !taxForm.get('travelAllowance')?.valid &&
+                    taxForm.get('travelAllowance')?.touched
+                  "
+                  class="form-text"
+                  >Travel Allowance needs to be a valid money amount.</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br />
+
+        <div class="d-flex justify-content-center">
+          <button
+            class="btn btn-outline-primary mr-1"
+            mat-button
+            matStepperPrevious
+          >
+            Back
+          </button>
+          <button
+            class="btn btn-outline-primary mr-1"
+            mat-button
+            matStepperNext
+          >
+            Next
+          </button>
+        </div>
+      </mat-step>
+
+      <mat-step label="Less Payables" labelPosition="bottom" #stepper>
+        <br />
+
+        <div class="container justify-content-center">
+          <div class="col">
+            <!-- <div class="row justify-content-center">
+              <div class="col-sm-3 description text-center">
+                <label>* indicates required</label>
+              </div>
+            </div> -->
+
+            <br />
+
+            <div class="row justify-content-center">
+              <div class="col-sm-3">
+                <label>Medical Credits (R):</label>
+                <label class="description"
+                  >Total contributed during the tax year*</label
+                >
+              </div>
+
+              <div class="col-sm-5">
+                <input
+                  (click)="onFocus($event)"
+                  type="number"
+                  id="medicalCredits"
+                  min="0.00"
+                  step="0.01"
+                  formControlName="medicalCredits"
+                  class="form-control"
+                  placeholder="0.00"
+                />
+
+                <span
+                  *ngIf="
+                    !taxForm.get('medicalCredits')?.valid &&
+                    taxForm.get('medicalCredits')?.touched
+                  "
+                  class="form-text"
+                  >Medical Credits needs to be a valid money amount.</span
+                >
+              </div>
+            </div>
+
+            <br />
+
+            <div class="row justify-content-center">
+              <div class="col-sm-3">
+                <label>Rebate (R):</label>
+                <label class="description"
+                  >The amount as per your age during the tax year*</label
+                >
+              </div>
+
+              <div class="col-sm-5">
+                <div class="d-flex justify-content-end">
+                  <label class="label-description">Primary (R):</label>
+                  <label class="label-amount">{{
+                    formatMoneyLabel(getPrimaryRebate())
+                  }}</label>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                  <label class="label-description"
+                    >Secondary (65 and older) (R):</label
+                  >
+                  <label class="label-amount">{{
+                    formatMoneyLabel(getSecondaryRebate())
+                  }}</label>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                  <label class="label-description"
+                    >Tertiary (75 and older) (R):</label
+                  >
+                  <label class="label-amount">{{
+                    formatMoneyLabel(getTertiaryRebate())
+                  }}</label>
+                </div>
+
+                <br />
+
+                <div class="d-flex justify-content-end">
+                  <label for="totalRebate"><b>Total Rebate (R):</b></label>
+                  <label class="label-amount" id="totalRebate"
+                    ><b>{{ totalRebate() }}</b></label
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br />
+
+        <div class="d-flex justify-content-center">
+          <button
+            class="btn btn-outline-primary mr-1"
+            mat-button
+            matStepperPrevious
+          >
+            Back
+          </button>
+          <button
+            type="submit"
+            (ngSubmit)="onSubmit()"
+            class="btn btn-outline-primary mr-1"
+            mat-button
+            matStepperNext
+          >
+            Next
+          </button>
+        </div>
+      </mat-step>
+
+      <mat-step label="Summary" labelPosition="bottom" #stepper
+        ><div class="d-flex justify-content-center">
+          <h3>
+            <b>
+              {{ taxForm.get("name")?.value }}
+              {{ taxForm.get("surname")?.value }}</b
+            >
+          </h3>
+        </div>
+
+        <div class="d-flex justify-content-center label-description">
+          <label
+            >Taxes for
+            <span
+              >Mar {{ this.taxForm.get("taxYear")?.value }} - Feb
+              {{ this.taxForm.get("taxYear")?.value + 1 }}</span
+            ></label
+          >
+        </div>
+        <br />
+
+        <div class="d-flex justify-content-center">
+          <table>
+            <tbody>
+              <tr>
+                <td></td>
+                <td class="label-description">
+                  <b>Total Taxable Income (R):</b>
+                </td>
+                <td class="label-amount">
+                  <b>{{ totalTaxableIncome() }}</b>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td class="label-description">
+                  <b>Total Deductable Expenses (R):</b>
+                </td>
+                <td class="label-amount">
+                  <b>{{ totalDeductableExpenses() }}</b>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td class="label-description">
+                  <b>Nett Taxable Income(Total) (R):</b>
+                </td>
+                <td class="label-amount">
+                  <b>{{ nettTaxableIncome() }}</b>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td class="label-description"><b>Tax Payable (R):</b></td>
+                <td class="label-amount">
+                  <b>{{ taxPayable() }}</b>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td class="label-description"><b>Less Payables (R):</b></td>
+                <td class="label-amount">
+                  <b>{{ totalLessPayables() }}</b>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <br />
+        <br />
+        <div class="d-flex justify-content-center">
+          <h4 class="nett-description"><b>Nett Tax Payable (R):</b></h4>
+          <h4 class="nett-amount" id="taxPayable">
+            <b>{{ nettTaxPayable() }}</b>
+          </h4>
+        </div>
+
+        <br />
+
+        <div class="d-flex justify-content-center">
+          <button
+            class="btn btn-outline-primary mr-1"
+            mat-button
+            matStepperPrevious
+          >
+            Back
+          </button>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </form>
+</div>
+
+<!--
+<div class="container">
+  <div class="container text-center text-md-left" data-aos="fade-up">
+    <div class="d-flex justify-content-center bd-highlight">
+      <form
+        [formGroup]="taxForm"
+        (ngSubmit)="onSubmit()"
+        novalidate
+        method="post"
+      >
+        <div>
+          <h2 class="d-flex justify-content-center">
+            <strong>Tax Calculator</strong>
+          </h2>
+        </div>
+
+        <br />
+
+        <div>
+          <h4 class="d-flex justify-content-center"><b>Age:</b></h4>
+          <div class="d-flex justify-content-around">
+            <div>
+              <input
+                type="radio"
+                id="under65"
+                name="age"
+                formControlName="age"
+                value="60"
+                checked="true"
+              />
+              <Label for="under65">Under 65</Label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="between65-75"
+                name="age"
+                formControlName="age"
+                value="70"
+              />
+              <Label for="between65-75">Between 65 and 75</Label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="over75"
+                name="age"
+                formControlName="age"
+                value="80"
+              />
+              <Label for="over75">Over 75</Label>
+            </div>
+          </div>
+        </div>
+
+        <br />
+
+        <div>
+          <h4 class="d-flex justify-content-center"><b>Income:</b></h4>
+
+          <div class="card accordion">
+            <div class="accordion-header" id="salaryHeading">
+              <h5>
+                <button
+                  class="btn btn-block text-left"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#salaryAccordion"
+                  aria-expanded="true"
+                  aria-controls="content"
+                >
+                  Salary (R):
+                </button>
+              </h5>
+            </div>
+
+            <div
+              class="collapse show"
+              id="salaryAccordion"
+              aria-labelledby="salaryHeading"
+            >
+              <div class="form-group">
+                <label class="description" for="salary"
+                  >The total salary earned during the tax year*</label
+                >
+                <input
+                (click)="onFocus($event)"
+                (paste)="onPaste($event)"
+                  type="number"
+                  id="salary"
+                  min="0.00"
+                  step="0.01"
+                  formControlName="salary"
+                  class="form-control"
+                  placeholder="0.00"
+                />
+                <span
+                  *ngIf="
+                    !taxForm.get('salary')?.valid &&
+                    taxForm.get('salary')?.touched
+                  "
+                  class="form-text"
+                  >Please enter a valid amount!</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="card accordion">
+            <div class="accordion-header" id="bonusesHeading">
+              <h5>
+                <button
+                  class="btn btn-block text-left"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#bonusesAccordion"
+                  aria-expanded="true"
+                  aria-controls="content"
+                >
+                  Bonuses (R):
+                </button>
+              </h5>
+            </div>
+
+            <div
+              class="collapse"
+              id="bonusesAccordion"
+              aria-labelledby="bonusesHeading"
+            >
+              <div class="form-group">
+                <label class="description" for="bonuses"
+                  >The total bonuses earned during the tax year*</label
+                >
+                <input
+                  (click)="onFocus($event)"
+                  (paste)="onPaste($event)"
+                  type="number"
+                  id="bonuses"
+                  min="0.00"
+                  step="0.01"
+                  formControlName="bonuses"
+                  class="form-control"
+                  placeholder="0.00"
+                />
+                <span
+                  *ngIf="
+                    !taxForm.get('bonuses')?.valid &&
+                    taxForm.get('bonuses')?.touched
+                  "
+                  class="form-text"
+                  >Please enter a valid amount!</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="card accordion">
+            <div class="accordion-header" id="interestReceivedHeading">
+              <h5>
+                <button
+                  class="btn btn-block text-left"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#interestReceivedAccordion"
+                  aria-expanded="true"
+                  aria-controls="content"
+                >
+                  Interest Received (R):
+                </button>
+              </h5>
+            </div>
+
+            <div
+              class="collapse"
+              id="interestReceivedAccordion"
+              aria-labelledby="interestReceivedHeading"
+            >
+              <div class="form-group">
+                <label class="description" for="interestReceived"
+                  >The total interest received earned during the tax
+                  year*</label
+                >
+                <input
+                  (click)="onFocus($event)"
+                  (paste)="onPaste($event)"
+                  type="number"
+                  id="interestReceived"
+                  min="0.00"
+                  step="0.01"
+                  formControlName="interestReceived"
+                  class="form-control"
+                  placeholder="0.00"
+                />
+                <span
+                  *ngIf="
+                    !taxForm.get('interestReceived')?.valid &&
+                    taxForm.get('interestReceived')?.touched
+                  "
+                  class="form-text"
+                  >Please enter a valid amount!</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="card accordion">
+            <div class="accordion-header" id="dividendsHeading">
+              <h5>
+                <button
+                  class="btn btn-block text-left"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#dividendsAccordion"
+                  aria-expanded="true"
+                  aria-controls="content"
+                >
+                  Dividends (R):
+                </button>
+              </h5>
+            </div>
+
+            <div
+              class="collapse"
+              id="dividendsAccordion"
+              aria-labelledby="dividendsHeading"
+            >
+              <div class="form-group">
+                <label class="description" for="dividends"
+                  >The total dividends earned during the tax year*</label
+                >
+                <input
+                  (click)="onFocus($event)"
+                  (paste)="onPaste($event)"
+                  type="number"
+                  id="dividends"
+                  min="0.00"
+                  step="0.01"
+                  formControlName="dividends"
+                  class="form-control"
+                  placeholder="0.00"
+                />
+                <span
+                  *ngIf="
+                    !taxForm.get('dividends')?.valid &&
+                    taxForm.get('dividends')?.touched
+                  "
+                  class="form-text"
+                  >Please enter a valid amount!</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="card accordion">
+            <div class="accordion-header" id="totalCapitalGainsHeading">
+              <h5>
+                <button
+                  class="btn btn-block text-left"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#totalCapitalGainsAccordion"
+                  aria-expanded="true"
+                  aria-controls="content"
+                >
+                  Total Capital Gains (R):
+                </button>
+              </h5>
+            </div>
+
+            <div
+              class="collapse"
+              id="totalCapitalGainsAccordion"
+              aria-labelledby="totalCapitalGainsHeading"
+            >
+              <div class="form-group">
+                <label class="description" for="totalCapitalGains"
+                  >The total capital gains earned during the tax year*</label
+                >
+                <input
+                  (click)="onFocus($event)"
+                  (paste)="onPaste($event)"
+                  type="number"
+                  id="totalCapitalGains"
+                  min="0.00"
+                  step="0.01"
+                  formControlName="totalCapitalGains"
+                  class="form-control"
+                  placeholder="0.00"
+                />
+                <span
+                  *ngIf="
+                    !taxForm.get('totalCapitalGains')?.valid &&
+                    taxForm.get('totalCapitalGains')?.touched
+                  "
+                  class="form-text"
+                  >Please enter a valid amount!</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end">
+            <label class="label-description" for="totalIncome"
+              ><b>Total Income (R):</b></label
+            >
+            <label class="label-amount" id="totalIncome"
+              ><b
+                ><span>{{ totalIncome() }}</span></b
+              ></label
+            >
+          </div>
+        </div>
+
+        <br />
+
+        <div>
+          <h4 class="d-flex justify-content-center">
+            <b>Deductable Expenses:</b>
+          </h4>
+
+          <div class="card accordion">
+            <div class="accordion-header" id="retirementFundHeading">
+              <h5>
+                <button
+                  class="btn btn-block text-left"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#retirementFundAccordion"
+                  aria-expanded="true"
+                  aria-controls="content"
+                >
+                  Retirement Fund (R):
+                </button>
+              </h5>
+            </div>
+
+            <div
+              class="collapse"
+              id="retirementFundAccordion"
+              aria-labelledby="retirementFundHeading"
+            >
+              <div class="form-group">
+                <label class="description" for="retirementFund"
+                  >The total amount contributed to a retirement fund during the
+                  tax year*</label
+                >
+                <input
+                  (click)="onFocus($event)"
+                  (paste)="onPaste($event)"
+                  type="number"
+                  id="retirementFund"
+                  min="0.00"
+                  step="0.01"
+                  formControlName="retirementFund"
+                  class="form-control"
+                  placeholder="0.00"
+                />
+                <span
+                  *ngIf="
+                    !taxForm.get('retirementFund')?.valid &&
+                    taxForm.get('retirementFund')?.touched
+                  "
+                  class="form-text"
+                  >Please enter a valid amount!</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="card accordion">
+            <div class="accordion-header" id="travelAllowanceHeading">
+              <h5>
+                <button
+                  class="btn btn-block text-left"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#travelAllowanceAccordion"
+                  aria-expanded="true"
+                  aria-controls="content"
+                >
+                  Travel Allowance (R):
+                </button>
+              </h5>
+            </div>
+
+            <div
+              class="collapse"
+              id="travelAllowanceAccordion"
+              aria-labelledby="travelAllowanceHeading"
+            >
+              <div class="form-group">
+                <label class="description" for="travelAllowance"
+                  >The total amount allocated for a travel allowance during the
+                  tax year*</label
+                >
+                <input
+                  (click)="onFocus($event)"
+                  (paste)="onPaste($event)"
+                  type="number"
+                  id="travelAllowance"
+                  min="0.00"
+                  step="0.01"
+                  formControlName="travelAllowance"
+                  class="form-control"
+                  placeholder="0.00"
+                />
+                <span
+                  *ngIf="
+                    !taxForm.get('travelAllowance')?.valid &&
+                    taxForm.get('travelAllowance')?.touched
+                  "
+                  class="form-text"
+                  >Please enter a valid amount!</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end">
+            <label class="label-description" for="totalExpenses"
+              ><b>Total Expenses (R):</b></label
+            >
+            <label class="label-amount" id="totalExpenses"
+              ><span
+                ><b>{{ totalExpenses() }}</b></span
+              ></label
+            >
+          </div>
+        </div>
+
+        <br />
+
+        <br />
+
+        <div>
+          <h4 class="d-flex justify-content-center">
+            <b>Totals:</b>
+          </h4>
+          <div class="d-flex justify-content-end">
+            <label class="label-description" for="totalTaxableIncome"
+              ><b>Total Taxable Income (R):</b></label
+            >
+            <label class="label-amount" id="totalTaxableIncome"
+              ><b>{{ totalTaxableIncome() }}</b></label
+            >
+          </div>
+          <div class="d-flex justify-content-end">
+            <label class="label-description" for="totalDeductableExpenses"
+              ><b>Total Deductable Expenses (R):</b></label
+            >
+            <label class="label-amount" id="totalDeductableExpenses"
+              ><b>{{ totalDeductableExpenses() }}</b></label
+            >
+          </div>
+
+          <div class="d-flex justify-content-end">
+            <label class="label-description" for="taxPayable"
+              ><b>Nett Taxable Income(Total) (R):</b></label
+            >
+            <label class="label-amount" id="taxPayable"
+              ><b>{{ nettTaxableIncome() }}</b></label
+            >
+          </div>
+
+          <div class="d-flex justify-content-end">
+            <label class="label-description" for="taxPayable"
+              ><b>Tax Payable (R):</b></label
+            >
+            <label class="label-amount" id="taxPayable"
+              ><b>{{ taxPayable() }}</b></label
+            >
+          </div>
+        </div>
+        <br />
+
+        <div class="card accordion">
+          <div class="accordion-header" id="medicalCreditsHeading">
+            <h5>
+              <button
+                class="btn btn-block text-left"
+                type="button"
+                data-toggle="collapse"
+                data-target="#medicalCreditsAccordion"
+                aria-expanded="true"
+                aria-controls="content"
+              >
+                Medical Credits (R):
+              </button>
+            </h5>
+          </div>
+
+          <div
+            class="collapse"
+            id="medicalCreditsAccordion"
+            aria-labelledby="medicalCreditsHeading"
+          >
+            <div class="form-group">
+              <label class="description" for="medicalCredits"
+                >The total amount contributed for a medical aid during the tax
+                year*</label
+              >
+              <input
+                (click)="onFocus($event)"
+                (paste)="onPaste($event)"
+                type="number"
+                id="medicalCredits"
+                min="0.00"
+                step="0.01"
+                formControlName="medicalCredits"
+                class="form-control"
+                placeholder="0.00"
+              />
+              <span
+                *ngIf="
+                  !taxForm.get('medicalCredits')?.valid &&
+                  taxForm.get('medicalCredits')?.touched
+                "
+                class="form-text"
+                >Please enter a valid amount!</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="card accordion">
+          <div class="accordion-header" id="rebateHeading">
+            <h5>
+              <button
+                class="btn btn-block text-left"
+                type="button"
+                data-toggle="collapse"
+                data-target="#rebateAccordion"
+                aria-expanded="true"
+                aria-controls="content"
+              >
+                Rebate (R):
+              </button>
+            </h5>
+          </div>
+
+          <div
+            class="collapse"
+            id="rebateAccordion"
+            aria-labelledby="rebateHeading"
+          >
+            <div class="form-group">
+              <label class="description"
+                >The rebate amount as per your age during the tax year*</label
+              >
+              <br />
+
+              <div class="d-flex justify-content-end">
+                <label class="label-description">Primary (R):</label>
+                <label class="label-amount">{{
+                  formatMoneyLabel(getPrimaryRebate())
+                }}</label>
+              </div>
+
+              <div class="d-flex justify-content-end">
+                <label class="label-description"
+                  >Secondary (65 and older) (R):</label
+                >
+                <label class="label-amount">{{
+                  formatMoneyLabel(getSecondaryRebate())
+                }}</label>
+              </div>
+
+              <div class="d-flex justify-content-end">
+                <label class="label-description"
+                  >Tertiary (75 and older) (R):</label
+                >
+                <label class="label-amount">{{
+                  formatMoneyLabel(getTertiaryRebate())
+                }}</label>
+              </div>
+
+              <br />
+
+              <div class="d-flex justify-content-end">
+                <label for="totalRebate"><b>Total Rebate (R):</b></label>
+                <label class="label-amount" id="totalRebate"
+                  ><b>{{ totalRebate() }}</b></label
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br />
+
+        <div class="d-flex justify-content-end">
+          <h4 class="nett-description"><b>Nett Tax Payable (R):</b></h4>
+          <h4 class="nett-amount" id="taxPayable">
+            <b>{{ nettTaxPayable() }}</b>
+          </h4>
+        </div>
+
+        <br />
+
+        <div class="d-flex justify-content-end">
+           Coming soon!
+          <div class="d-flex justify-content-begin">
+            <button
+              type="button"
+              class="btn btn-outline-secondary mr-1"
+              (click)="onClear()"
+            >
+              Clear
+            </button>
+          </div>
+
+          <div class="d-flex justify-content-end">
+            <button
+              type="button"
+              class="btn btn-outline-primary mr-1"
+              (click)="onCancel()"
+            >
+              Cancel
+            </button>
+            <button
+              [disabled]="!taxForm.valid"
+              type="submit"
+              class="btn btn-outline-primary mr-1"
+            >
+              Calculate
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>-->

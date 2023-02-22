@@ -1,0 +1,11 @@
+$hover-color: #b6c6cf;
+
+a {
+  cursor: pointer;
+}
+
+nav > a, li > a, .navbar-brand.ml-auto {
+  &:hover {
+    color: $hover-color !important;
+  }
+}

@@ -1,0 +1,118 @@
+<div class="container">
+  <div class="container text-center text-md-left" data-aos="fade-up">
+    <div class="d-flex justify-content-center bd-highlight">
+      <form
+        [formGroup]="customerForm"
+        (ngSubmit)="onSubmit()"
+        novalidate
+        method="post"
+      >
+        <div>
+          <h2 class="d-flex justify-content-center">{{ title }}</h2>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="idNumber"><b>ID Number:</b> </label>
+          <input
+            type="text"
+            (keydown)="onlyNumber($event)"
+            (keydown)="onTextChanged($event)"
+            id="idNumber"
+            formControlName="idNumber"
+            class="form-control"
+            placeholder="9901011234012"
+            minlength="13"
+            maxlength="13"
+          />
+          <app-error-message
+          [detailsForm]="customerForm"
+          [attribute]="'idNumber'"
+          ></app-error-message>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="name"><b>Name:</b></label>
+          <input
+            type="text"
+            (keypress)="alphaOnly($event)"
+            id="name"
+            formControlName="name"
+            class="form-control"
+            placeholder="John"
+          />
+          <app-error-message
+          [detailsForm]="customerForm"
+          [attribute]="'name'"
+          ></app-error-message>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="surname"><b>Surname:</b></label>
+          <input
+            type="text"
+            (keypress)="alphaOnly($event)"
+            id="surname"
+            formControlName="surname"
+            class="form-control"
+            placeholder="Doe"
+          />
+          <app-error-message
+          [detailsForm]="customerForm"
+          [attribute]="'surname'"
+          ></app-error-message>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="dateOfBirth"><b>Date of Birth:</b></label>
+          <input
+            type="date"
+            id="dateOfBirth"
+            formControlName="dateOfBirth"
+            class="form-control"
+            placeholder="Date Of Birth"
+          />
+          <app-error-message
+          [detailsForm]="customerForm"
+          [attribute]="'dateOfBirth'"
+          ></app-error-message>
+        </div>
+
+        <span *ngIf="!customerForm.valid && !formValid" class="form-text"
+          >Please complete the form.</span
+        >
+
+        <br />
+
+        <div class="d-flex justify-content-between">
+          <div class="d-flex justify-content-begin">
+            <button
+              *ngIf="!this.updateCustomer"
+              type="button"
+              class="btn btn-outline-secondary mr-1"
+              (click)="onClear()"
+            >
+              Clear
+            </button>
+          </div>
+
+          <div class="d-flex justify-content-end">
+            <button
+              type="button"
+              class="btn btn-outline-primary mr-1"
+              (click)="onCancel()"
+            >
+              Cancel
+            </button>
+            <button
+              [disabled]="!customerForm.valid"
+              type="submit"
+              class="btn btn-outline-primary mr-1"
+            >
+              {{ submitButtonText }}
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

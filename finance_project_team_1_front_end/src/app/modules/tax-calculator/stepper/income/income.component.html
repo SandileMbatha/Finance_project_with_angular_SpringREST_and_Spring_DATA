@@ -1,0 +1,78 @@
+<form [formGroup]="income">
+  <div>
+    <label>Salary (R):</label>
+    <input
+      (click)="onFocus($event)"
+      (paste)="onPaste($event)"
+      type="number"
+      id="salary"
+      min="0.00"
+      step="0.01"
+      formControlName="salary"
+      class="form-control"
+      placeholder="0.00"
+    />
+  </div>
+
+  <div>
+    <label>Bonuses (R):</label>
+    <input
+      (click)="onFocus($event)"
+      (paste)="onPaste($event)"
+      type="number"
+      id="bonuses"
+      min="0.00"
+      step="0.01"
+      formControlName="bonuses"
+      class="form-control"
+      placeholder="0.00"
+    />
+  </div>
+
+  <div>
+    <label>Interest Received (R):</label>
+    <input
+      (click)="onFocus($event)"
+      (paste)="onPaste($event)"
+      type="number"
+      id="interestReceived"
+      min="0.00"
+      step="0.01"
+      formControlName="interestReceived"
+      class="form-control"
+      placeholder="0.00"
+    />
+  </div>
+
+  <div>
+    <label>Dividends (R):</label>
+    <input
+      (click)="onFocus($event)"
+      (paste)="onPaste($event)"
+      type="number"
+      id="dividends"
+      min="0.00"
+      step="0.01"
+      formControlName="dividends"
+      class="form-control"
+      placeholder="0.00"
+    />
+  </div>
+
+  <div>
+    <label>Total Capital Gains (R):</label>
+    <input
+      (click)="onFocus($event)"
+      (paste)="onPaste($event)"
+      type="number"
+      id="totalCapitalGains"
+      min="0.00"
+      step="0.01"
+      formControlName="totalCapitalGains"
+      class="form-control"
+      placeholder="0.00"
+    />
+  </div>
+
+  <br />
+</form>

@@ -1,0 +1,31 @@
+-- PSQL run file commands
+
+--filePath:
+
+Francois=> 
+Sandile=> 
+Sufyaan=> C:/Users/sufyaan.chopdat/Desktop/Grad repos
+
+-- drop-all-tables.sql
+
+\i 'filePath/finance_project_team_1/docs/sql-statements/select-all-query.sql'
+
+-- delete-data.sql
+
+\i 'filePath/finance_project_team_1/docs/sql-statements/delete-data.sql'
+
+-- customer-table-data.sql
+
+\i 'filePath/finance_project_team_1/docs/sql-statements/customer-table-data.sql'
+
+-- finances-table-data.sql
+
+\i 'filePath/finance_project_team_1/docs/sql-statements/finances-table-data.sql'
+
+-- 2022_tax_table_query.sql
+
+\i 'filePath/finance_project_team_1/docs/sql-statements/2022_tax_table_query.sql'
+
+-- select-all-query.sql
+
+\i 'filePath/finance_project_team_1/docs/sql-statements/select-all-query.sql'

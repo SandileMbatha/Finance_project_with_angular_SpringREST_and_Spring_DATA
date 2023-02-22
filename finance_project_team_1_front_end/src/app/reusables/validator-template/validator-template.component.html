@@ -1,0 +1,11 @@
+<span *ngFor="let validatorProperty of validatorProperties" class="form-text">
+  <span
+    *ngIf="
+      formGroup.controls[formControlProperty.key].hasError(
+        validatorProperty.key
+      )
+    "
+    class="form-text"
+    >{{ validatorProperty.message }}</span
+  >
+</span>

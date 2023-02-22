@@ -1,0 +1,27 @@
+@import "bootswatch/dist/united/variables";
+@import "bootstrap/scss/bootstrap";
+@import "bootswatch/dist/united/bootswatch";
+
+$background-color: white;
+
+.customer-details-card {
+  max-width: 60rem;
+  @extend .card;
+  @extend .border-secondary;
+  @extend .mb-3;
+  @extend .col-md-4;
+  @extend .mx-auto;
+  @extend .d-flex;
+  @extend .justify-content-center;
+}
+
+.card-footer {
+  padding: 0px;
+  background-color: $background-color;
+  border-top: 0px;
+  display: flex;
+}
+
+.table-responsive {
+  overflow-x: visible;
+}

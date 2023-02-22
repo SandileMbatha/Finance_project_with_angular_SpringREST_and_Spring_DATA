@@ -1,0 +1,58 @@
+<div *ngIf="carFinance">
+  <span class="scroll-button" (click)="scrollDown()">
+    <fa-icon [icon]="['fas', 'chevron-down']"></fa-icon>
+  </span>
+  <h2 class="d-flex justify-content-center">
+    <b>{{ carFinance.name }}</b>
+  </h2>
+  <br />
+  <div class="container">
+    <div class="justify-content-center">
+      <div class="row d-flex justify-content-center">
+        <div class="finance-details-content">
+          <div class="card border-secondary mb-3">
+            <app-details-card [cardData]="detailsCardData"></app-details-card>
+          </div>
+          <br /><br />
+          <div class="card border-secondary mb-3">
+            <app-details-card [cardData]="summaryCardData"></app-details-card>
+          </div>
+        </div>
+      </div>
+      <br /><br />
+      <app-tables-with-events
+        [financeTableData]="monthTableData"
+        [eventTableData]="eventTableData"
+        [pageData]="pageData"
+        (newPageRequested)="onNewPageRequested($event)"
+        (newPageSizeRequested)="onNewPageSizeRequested($event)"
+        [service]="getCarFinanceService()"
+        (deleteItem)="onDeleteItem()"
+        [withdrawButton]="false"
+      >
+      </app-tables-with-events>
+      <br />
+      <br />
+      <div class="accordion col-md-5 mx-auto">
+        <div class="accordion-card">
+          <button
+            class="btn btn-block text-left"
+            type="button"
+            data-toggle="collapse"
+            data-target="#graph"
+            aria-expanded="true"
+          >
+            History Chart
+          </button>
+        </div>
+      </div>
+      <div class="collapse" id="graph">
+        <app-chart [xAxis]="getMonths()" [yAxis]="getClosingBalances()">
+        </app-chart>
+      </div>
+    </div>
+  </div>
+  <span class="scroll-button" (click)="scrollUp()">
+    <fa-icon [icon]="['fas', 'chevron-up']"></fa-icon>
+  </span>
+</div>

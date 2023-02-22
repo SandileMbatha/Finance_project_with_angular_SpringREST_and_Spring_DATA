@@ -1,0 +1,51 @@
+$background-color: #d3d3d3;
+$border-color: #c1c1c1;
+$primary-color: #772953;
+
+th {
+  text-align: center;
+}
+
+li {
+  cursor: pointer;
+}
+
+table {
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-top: 0;
+}
+
+.custom-select {
+  cursor: pointer;
+  max-width: 5rem;
+  max-height: 2rem;
+  font-size: 0.95rem;
+}
+
+.page-item.active .page-link {
+  background-color: $primary-color;
+  border-color: $primary-color;
+}
+
+.page-link {
+  color: $primary-color;
+}
+
+.clickable-row {
+  cursor: pointer;
+}
+
+.table-hover {
+  tbody {
+    tr {
+      &:hover {
+        td {
+          background-color: $background-color;
+          border-color: $border-color;
+        }
+      }
+    }
+  }
+}
